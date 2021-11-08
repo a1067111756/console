@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>vconsole示例</title>
+</head>
+<body>
+  <p>F12打开控制台查看效果</p>
+  <script type="module">
+    import './node_modules/@achengyu/vconsole/dist/vconsole.es.js'
+
+    // vconsole
+    //     .setting
+    //     .setEnabled(true)
+    //     .setTags(['layer'])
+    //     .setLevel([vconsole.VCONSOLE_TYPE.DEBUG])
+
+    vconsole.log('test', '我是log日志')
+    vconsole.info('test', '我是info日志')
+    vconsole.debug('test', '我是debug日志')
+    vconsole.warn('test', '我是warn日志')
+    vconsole.error('test', '我是error日志')
+
+    vconsole.log('test', `
+          ___         /  /\\         /  /\\         /__/\\         /  /\\         /  /\\                       /  /\\
+         /__/\\       /  /:/        /  /::\\        \\  \\:\\       /  /:/_       /  /::\\                     /  /:/_
+         \\  \\:\\     /  /:/        /  /:/\\:\\        \\  \\:\\     /  /:/ /\\     /  /:/\\:\\    ___     ___    /  /:/ /\\
+          \\  \\:\\   /  /:/  ___   /  /:/  \\:\\   _____\\__\\:\\   /  /:/ /::\\   /  /:/  \\:\\  /__/\\   /  /\\  /  /:/ /:/_
+      ___  \\__\\:\\ /__/:/  /  /\\ /__/:/ \\__\\:\\ /__/::::::::\\ /__/:/ /:/\\:\\ /__/:/ \\__\\:\\ \\  \\:\\ /  /:/ /__/:/ /:/ /\\
+     /__/\\ |  |:| \\  \\:\\ /  /:/ \\  \\:\\ /  /:/ \\  \\:\\~~\\~~\\/ \\  \\:\\/:/~/:/ \\  \\:\\ /  /:/  \\  \\:\\  /:/  \\  \\:\\/:/ /:/
+     \\  \\:\\|  |:|  \\  \\:\\  /:/   \\  \\:\\  /:/   \\  \\:\\  ~~~   \\  \\::/ /:/   \\  \\:\\  /:/    \\  \\:\\/:/    \\  \\::/ /:/
+      \\  \\:\\__|:|   \\  \\:\\/:/     \\  \\:\\/:/     \\  \\:\\        \\__\\/ /:/     \\  \\:\\/:/      \\  \\::/      \\  \\:\\/:/
+       \\__\\::::/     \\  \\::/       \\  \\::/       \\  \\:\\         /__/:/       \\  \\::/        \\__\\/        \\  \\::/
+           ~~~~       \\__\\/         \\__\\/         \\__\\/         \\__\\/         \\__\\/                       \\__\\/
+    `)
+
+    vconsole.image('test', 'https://www.baidu.com/img/flexible/logo/pc/result.png', 'padding-left: 150px; padding-bottom:40px;')
+
+    vconsole.version(
+        'version',
+        {
+            url: 'http://221.13.47.102:9000/wypt/pc-static/animate-dashboard.gif',
+            style: 'padding-left:300px; padding-bottom:280px;'
+        },
+        {
+            title: 'vconsole版本模板',
+            style: 'color: red; font-weight: bold; font-size: 20px; margin-top: 10px;'
+        },
+        {
+            style: 'color: #000000; line-height: 20px;',
+            content: `
+    branch: dev
+    commit: 初始功能完成测试
+    version: 0.0.1
+    lastCommitTime: 2021-11-04 12:00:00
+            `
+        }
+    )
+  </script>
+</body>
+</html>

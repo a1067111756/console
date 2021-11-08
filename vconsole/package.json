@@ -1,0 +1,46 @@
+{
+  "name": "@chengyu666/vconsole",
+  "license": "MIT",
+  "version": "0.0.1",
+  "author": "chengyu",
+  "description": "a better console tool for web development",
+  "main": "./dist/vconsole.umd.js",
+  "module": "./dist/vconsole.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/vconsole.es.js",
+      "require": "./dist/vconsole.umd.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a1067111756/vconsole.git"
+  },
+  "files": ["dist"],
+  "keywords": ["console", "vconsole", "chengyu"],
+  "scripts": {
+    "build-types": "node ./types-excutor.js",
+    "dev": "rollup -wc rollup.config.dev.js",
+    "prod": "rollup -c rollup.config.prod.js && npm run build-types"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "rollup": "^2.59.0",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "bugs": {
+    "url": "https://github.com/a1067111756/vconsole/issues"
+  },
+  "homepage": "https://github.com/a1067111756/vconsole#readme",
+  "directories": {
+    "doc": "doc",
+    "example": "example",
+    "lib": "lib"
+  }
+}
