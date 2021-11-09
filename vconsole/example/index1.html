@@ -7,21 +7,24 @@
 <body>
   <p>F12打开控制台查看效果</p>
   <script type="module">
-    import './node_modules/@achengyu/vconsole/dist/vconsole.es.js'
+    // import './node_modules/@achengyu/vconsole/dist/vconsole.es.js'
+    import '../dist/vconsole.es.js'
 
     // vconsole
     //     .setting
     //     .setEnabled(true)
-    //     .setTags(['layer'])
-    //     .setLevel([vconsole.VCONSOLE_TYPE.DEBUG])
+    //     .setEnableStackInfo(true)
+    //     .filterTags(['test'])
+    //     .filterLevel([vconsole.CONSOLE_TYPE.DEBUG])
 
-    vconsole.log('test', '我是log日志')
+    vconsole.log('test test1', '我是log日志')
     vconsole.info('test', '我是info日志')
     vconsole.debug('test', '我是debug日志')
     vconsole.warn('test', '我是warn日志')
     vconsole.error('test', '我是error日志')
 
-    vconsole.log('test', `
+    vconsole.ascii('test', `
+                       ___           ___           ___           ___           ___                         ___
           ___         /  /\\         /  /\\         /__/\\         /  /\\         /  /\\                       /  /\\
          /__/\\       /  /:/        /  /::\\        \\  \\:\\       /  /:/_       /  /::\\                     /  /:/_
          \\  \\:\\     /  /:/        /  /:/\\:\\        \\  \\:\\     /  /:/ /\\     /  /:/\\:\\    ___     ___    /  /:/ /\\
@@ -37,7 +40,7 @@
     vconsole.image('test', 'https://www.baidu.com/img/flexible/logo/pc/result.png', 'padding-left: 150px; padding-bottom:40px;')
 
     vconsole.version(
-        'version',
+        'test',
         {
             url: 'http://221.13.47.102:9000/wypt/pc-static/animate-dashboard.gif',
             style: 'padding-left:300px; padding-bottom:280px;'

@@ -1,7 +1,8 @@
 class VconsoleSetting {
     constructor () {
-        this.enable = true
         this.tags = []
+        this.enable = true
+        this.enableStackInfo = true
         this.level = [Vconsole.STATIC_VCONSOLE_TYPE.DEFAULT]
     }
 
@@ -14,7 +15,16 @@ class VconsoleSetting {
         return this
     }
 
-    setTags (value) {
+    setEnableStackInfo (value) {
+        if (typeof value !== 'boolean') {
+            throw new Error('enableStackInfo配置项只接受boolean类型参数')
+        }
+
+        this.enableStackInfo = value
+        return this
+    }
+
+    filterTags (value) {
         if (!Array.isArray(value)) {
             throw new Error('tags配置项只接受Array类型参数')
         }
@@ -23,7 +33,7 @@ class VconsoleSetting {
         return this
     }
 
-    setLevel (value) {
+    filterLevel (value) {
         if (!Array.isArray(value)) {
             throw new Error('level配置项只接受Array类型参数')
         }
@@ -45,7 +55,7 @@ export default class Vconsole {
 
     constructor () {
         this.setting = new VconsoleSetting()
-        this.VCONSOLE_TYPE = Vconsole.STATIC_VCONSOLE_TYPE
+        this.CONSOLE_TYPE = Vconsole.STATIC_VCONSOLE_TYPE
     }
 
     // 输出普通信息
@@ -53,13 +63,12 @@ export default class Vconsole {
         const { tag, msg } = this._getLogParams(arguments)
         const level = 'log'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
         const levelStyle = this._getLogLevelStyle(level)
         const commonStyle = 'color: #606266'
 
-        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.LOG, logTag)
-            && console.log(`%c ${level} %c ${time} ${logTag}`, levelStyle, commonStyle, ...msg)
+        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.LOG, tag)
+            && console.log(`%c ${level} %c ${time} ${this._getStackInfo()}[${tag}]:`, levelStyle, commonStyle, ...msg)
     }
 
     // 输出提示信息
@@ -67,13 +76,12 @@ export default class Vconsole {
         const { tag, msg } = this._getLogParams(arguments)
         const level = 'info'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
         const levelStyle = this._getLogLevelStyle(level)
         const commonStyle = 'color: #000000'
 
-        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.INFO, logTag)
-            && console.info(`%c ${level} %c ${time} ${logTag}`, levelStyle, commonStyle, ...msg)
+        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.INFO, tag)
+            && console.info(`%c ${level} %c ${time} ${this._getStackInfo()}[${tag}]:`, levelStyle, commonStyle, ...msg)
     }
 
     // 输出调试信息
@@ -81,13 +89,12 @@ export default class Vconsole {
         const { tag, msg } = this._getLogParams(arguments)
         const level = 'debug'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
         const levelStyle = this._getLogLevelStyle(level)
         const commonStyle = 'color: #409EFF'
 
-        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.DEBUG, logTag)
-            && console.debug(`%c ${level} %c ${time} ${logTag}`, levelStyle, commonStyle, ...msg)
+        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.DEBUG, tag)
+            && console.debug(`%c ${level} %c ${time} ${this._getStackInfo()}[${tag}]:`, levelStyle, commonStyle, ...msg)
     }
 
     // 输出警告信息
@@ -95,13 +102,12 @@ export default class Vconsole {
         const { tag, msg } = this._getLogParams(arguments)
         const level = 'warn'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
         const levelStyle = this._getLogLevelStyle(level)
         const commonStyle = 'color: #E6A23C'
 
-        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.WARNING, logTag)
-            && console.warn(`%c ${level} %c ${time} ${logTag}`, levelStyle, commonStyle, ...msg)
+        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.WARNING, tag)
+            && console.warn(`%c ${level} %c ${time} ${this._getStackInfo()}[${tag}]:`, levelStyle, commonStyle, ...msg)
     }
 
     // 输出错误信息
@@ -109,13 +115,29 @@ export default class Vconsole {
         const { tag, msg } = this._getLogParams(arguments)
         const level = 'error'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
         const levelStyle = this._getLogLevelStyle(level)
         const commonStyle = 'color: red'
 
-        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.ERRORS, logTag)
-            && console.error(`%c ${level} %c ${time} ${logTag}`, levelStyle, commonStyle, ...msg)
+        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.ERRORS, tag)
+            && console.error(`%c ${level} %c ${time} ${this._getStackInfo()}[${tag}]:`, levelStyle, commonStyle, ...msg)
+    }
+
+    // 输出图片信息
+    ascii () {
+        const tag = arguments[0]
+        const content = arguments[1]
+        const color = arguments[2] || '#000000'
+
+        const level = 'info'
+        const time = this._getLogTime()
+
+        const levelStyle = this._getLogLevelStyle(level)
+        const commonStyle = 'color: #000000'
+        const contentStyle =  `color: ${color}`
+
+        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.INFO, tag)
+            && console.info(`%c ${level} %c ${time} ${this._getStackInfo()}[${tag}]: %c ${content}`, levelStyle, commonStyle, contentStyle)
     }
 
     // 输出图片信息
@@ -125,13 +147,12 @@ export default class Vconsole {
         const style = arguments[2]
         const level = 'info'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
         const levelStyle = this._getLogLevelStyle(level)
         const commonStyle = 'color: #000000'
 
-        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.INFO, logTag)
-            && console.info(`%c ${level} %c ${time} ${logTag} \n %c `, levelStyle, commonStyle, `background: url(${url}) no-repeat; background-size: 100% 100%; ${style}`)
+        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.INFO, tag)
+            && console.info(`%c ${level} %c ${time} ${this._getStackInfo()}[${tag}]: \n %c `, levelStyle, commonStyle, `background: url(${url}) no-repeat; background-size: 100% 100%; ${style}`)
     }
 
     // 输出日志模板
@@ -143,14 +164,13 @@ export default class Vconsole {
 
         const level = 'info'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
         const levelStyle = this._getLogLevelStyle(level)
         const commonStyle = 'color: #000000'
 
-        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.INFO, logTag)
+        this._isConsole(Vconsole.STATIC_VCONSOLE_TYPE.INFO, tag)
             && console.info(
-                `%c ${level} %c ${time} ${logTag} \n %c %c \n ${titleParams.title} %c \n ${contentParams.content}`,
+                `%c ${level} %c ${time} ${this._getStackInfo()}[${tag}]: \n %c %c \n ${titleParams.title} %c \n ${contentParams.content}`,
                 levelStyle,
                 commonStyle,
                 `background: url(${imageParams.url}) no-repeat; background-size: 100% 100%; ${imageParams.style}`,
@@ -168,7 +188,8 @@ export default class Vconsole {
         const levelMatch = this.setting.level.includes(Vconsole.STATIC_VCONSOLE_TYPE.DEFAULT) || this.setting.level.includes(type)
 
         // tag控制
-        const tagMatch = Array.isArray(this.setting.tags) && (this.setting.tags.length <= 0 || this.setting.tags.some(tag => logTag.includes(tag)))
+        const logTagList = this._getLogTag(logTag)
+        const tagMatch = Array.isArray(this.setting.tags) && (this.setting.tags.length <= 0 || this.setting.tags.some(tag => logTagList.includes(tag)))
 
         return enableMatch && levelMatch && tagMatch
     }
@@ -188,7 +209,7 @@ export default class Vconsole {
 
     // 获取打印tag标签
     _getLogTag (tag) {
-        return `[${tag}]:`
+        return tag.split(' ')
     }
 
     // 获取打印参数
@@ -221,5 +242,34 @@ export default class Vconsole {
         }
 
         return `${year}-${complete(month)}-${complete(day)} ${complete(hours)}:${complete(minutes)}:${complete(seconds)}`
+    }
+
+    // 获取栈信息
+    _getStackInfo (){
+        if (!this.setting.enableStackInfo) {
+            return ''
+        }
+
+        try {
+            const orig = Error.prepareStackTrace;
+            Error.prepareStackTrace = function(_, stack) { return stack; };
+            const err = new Error;
+            const stack = err.stack;
+            Error.prepareStackTrace = orig;
+
+            let fileName = stack[2].getFileName()
+            const lineNumber = stack[2].getLineNumber()
+
+            if (fileName.includes('(')) {
+                fileName = fileName.slice(fileName.lastIndexOf('('), -1)
+                return `${fileName} `
+            } else {
+                fileName = fileName.slice(fileName.lastIndexOf('/') + 1)
+                fileName = fileName.split('?')[0]
+                return `${fileName}:${lineNumber} `
+            }
+        } catch (e) {
+            return ''
+        }
     }
 }

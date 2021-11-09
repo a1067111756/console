@@ -5,6 +5,7 @@ declare const vconsole: {
   debug: (tag: string, ...msg: any[]) => void
   warn: (tag: string, ...msg: any[]) => void
   error: (tag: string, ...msg: any[]) => void
+  ascii: (tag: string, url: string, color?: string) => void
   image: (tag: string, url: string, style: string) => void
   version: (
     tag: string,
@@ -12,7 +13,7 @@ declare const vconsole: {
     titleParams: { title: string, style: string },
     contentParams: { content: string, style: string }
   ) => void
-  VCONSOLE_TYPE: {
+  CONSOLE_TYPE: {
     'DEFAULT': 0,
     'LOG': 1,
     'INFO': 2,

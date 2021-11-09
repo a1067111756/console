@@ -1,9 +1,12 @@
 # 🚀 VConsole
 > ⌨️ 该工具仅用于web端开发时打印格式化日志，便于日志的管控，配合浏览器开发者工具食用更佳
 
-> ⌨️ 原计划是将browser和node版本兼容为一个版本，开发中发现browser和node控制台输出样式方式是不一致的，且考虑node端后期可能会增加日志文件输出等功能，没办法很好的兼容browser端，计划将node端拆分为新的一个工具库NConsole(🔗)
+> ⌨️ 原计划是将browser和node版本兼容为一个版本，开发中发现browser和node控制台输出样式方式是不一致的，且考虑node端后期可能会增加日志文件输出等功能，没办法很好的兼容browser端，计划将node端拆分为新的一个工具库NConsole(🔗https://www.npmjs.com/package/@achengyu/nconsole)
+
+
 
 ### ❤️ 插件的背景和目标
+
 ___
 - 背景 - 在实际开发项目中想更好的控制输出打印、更快的进行日志筛选、更样式化的定制打印
 
@@ -13,7 +16,10 @@ ___
 
 - 声明 - 该插件旨在减化自己工作中重复工作的工具，实现原理简单，自身能力有限，使用者勿喷，如果有好的想法和建议也可在issue中提出
 
+
+
 ### ✨️ 插件的基本功能
+
 ___
  - 支持日志分级别打印，不同级别日志显示不同颜色区分 ✓
  - 支持日志控制开关 ✓
@@ -21,13 +27,14 @@ ___
  - 内置一些常见打印，比如提交日志、图标 - （部分完成，部分待完善） 
  - 内置一些测试性能的打印 - （待完成）
 
- > level timestamp [tag] - 内容
+
 
 ### 😊️  插件的使用
+
 ___
 📦 Install:
 ```bash
-$ yarn add @chengyu/vconsole -D
+$ yarn add @achengyu/vconsole
 ```
 
 🔨 Usage
@@ -46,7 +53,10 @@ Use in code:
     vconsole.error('test', '我是error日志')
 ```
 
+
+
 ### ✌  插件的选项
+
 ___
 #### 一些前置概念
 ```javascript
@@ -70,9 +80,16 @@ ___
         vconsole内部没有导出任何实例给外部, 只在import时自动生成了一个实例并挂载到了window对象上,
         也就是说你可以在window对象上直接找到vconsole这个实例, 在代码中像调用原生console一样直接
         调用vconsole
+        
+    tag的格式要求：
+        tag参数是一个字符串数组类型([xxx xxx xxx]), 多个tag间用空格符号间隔，代码逻辑中对多tag
+        进行过滤匹配，因此这么约定    
 ```
 
+
+
 #### 全局配置项
+
 该插件默认不需要配置，但可以对其进行配置以支持自定义日志控制功能:
 
 ```javascript
@@ -80,11 +97,16 @@ ___
         .setting
         // 开启日志打印，表示是否开启插件
         .setEnabled(true)
+        // 开启日志打印所在的文件、行号信息(由于日志打印所在的文件、行号是通过throw Error捕获错误实现)，这样会存在
+        // 一个问题是项目中如果存在错误监控系统是全局检查错误的，会将此错误计入，造成体验不好，增加这个选项用于开关
+		.setEnableStackInfo(true)
         // 设置过滤的tag，表示需要过滤打印的tag日志
-        .setTags(['layer'])
+        .filterTags(['test'])
         // 设置过滤的等级，表示需要过滤打印的日志等级
-        .setLevel([vconsole.VCONSOLE_TYPE.DEBUG])
+        .filterLevel([vconsole.CONSOLE_TYPE.DEBUG])
 ```
+
+
 
 #### 内置函数
 
@@ -93,49 +115,71 @@ ___
 ```javascript
 vconsole.log('test', '我是log日志')
 ```
-![log日志](./doc/images/log.png)
+![log日志](http://r2abbrguw.hn-bkt.clouddn.com/vlog.png)
 
-<br/>
+
 
 #### vconsole.info(tag: string, ...msg: any[])
 ```javascript
 vconsole.info('test', '我是info日志')
 ```
-![info日志](./doc/images/info.png)
+![info日志](http://r2abbrguw.hn-bkt.clouddn.com/vinfo.png)
 
-<br/>
+
 
 #### vconsole.debug(tag: string, ...msg: any[])
 ```javascript
 vconsole.debug('test', '我是debug日志')
 ```
-![debug日志](./doc/images/debug.png)
+![debug日志](http://r2abbrguw.hn-bkt.clouddn.com/vdebug.png)
 
-<br/>
+
 
 #### vconsole.warn(tag: string, ...msg: any[])
 ```javascript
 vconsole.warn('test', '我是warn日志')
 ```
-![warn日志](./doc/images/warn.png)
+![warn日志](http://r2abbrguw.hn-bkt.clouddn.com/vwarn.png)
 
-<br/>
+
 
 #### vconsole.error(tag: string, ...msg: any[])
 ```javascript
 vconsole.error('test', '我是error日志')
 ```
-![error日志](./doc/images/error.png)
+![error日志](http://r2abbrguw.hn-bkt.clouddn.com/verror.png)
 
-<br/>
+
 
 #### vconsole.image(tag: string, url: string, style: string)
 ```javascript
 vconsole.image('test', 'https://www.baidu.com/img/flexible/logo/pc/result.png', 'padding-left: 150px; padding-bottom:40px;')
 ```
-![image日志](./doc/images/image.png)
+![image日志](http://r2abbrguw.hn-bkt.clouddn.com/vimage.png)
 
-<br/>
+
+
+#### vconsole.ascii(tag: string, url: string, color?: string)
+
+```javascript
+    vconsole.ascii('test', `
+                       ___           ___           ___           ___           ___                         ___
+          ___         /  /\\         /  /\\         /__/\\         /  /\\         /  /\\                       /  /\\
+         /__/\\       /  /:/        /  /::\\        \\  \\:\\       /  /:/_       /  /::\\                     /  /:/_
+         \\  \\:\\     /  /:/        /  /:/\\:\\        \\  \\:\\     /  /:/ /\\     /  /:/\\:\\    ___     ___    /  /:/ /\\
+          \\  \\:\\   /  /:/  ___   /  /:/  \\:\\   _____\\__\\:\\   /  /:/ /::\\   /  /:/  \\:\\  /__/\\   /  /\\  /  /:/ /:/_
+      ___  \\__\\:\\ /__/:/  /  /\\ /__/:/ \\__\\:\\ /__/::::::::\\ /__/:/ /:/\\:\\ /__/:/ \\__\\:\\ \\  \\:\\ /  /:/ /__/:/ /:/ /\\
+     /__/\\ |  |:| \\  \\:\\ /  /:/ \\  \\:\\ /  /:/ \\  \\:\\~~\\~~\\/ \\  \\:\\/:/~/:/ \\  \\:\\ /  /:/  \\  \\:\\  /:/  \\  \\:\\/:/ /:/
+     \\  \\:\\|  |:|  \\  \\:\\  /:/   \\  \\:\\  /:/   \\  \\:\\  ~~~   \\  \\::/ /:/   \\  \\:\\  /:/    \\  \\:\\/:/    \\  \\::/ /:/
+      \\  \\:\\__|:|   \\  \\:\\/:/     \\  \\:\\/:/     \\  \\:\\        \\__\\/ /:/     \\  \\:\\/:/      \\  \\::/      \\  \\:\\/:/
+       \\__\\::::/     \\  \\::/       \\  \\::/       \\  \\:\\         /__/:/       \\  \\::/        \\__\\/        \\  \\::/
+           ~~~~       \\__\\/         \\__\\/         \\__\\/         \\__\\/         \\__\\/                       \\__\\/
+    `)
+```
+
+![ascii日志](http://r2abbrguw.hn-bkt.clouddn.com/vascii.png)
+
+
 
 #### vconsole.version(tag: string, imageParams: { url: string, style: string }, titleParams: { title: string, style: string }, contentParams: { content: string, style: string })
 ```javascript
@@ -160,4 +204,5 @@ vconsole.image('test', 'https://www.baidu.com/img/flexible/logo/pc/result.png', 
     }
 )
 ```
-![version日志](./doc/images/version.png)
+![version日志](http://r2abbrguw.hn-bkt.clouddn.com/vversion.png)
+

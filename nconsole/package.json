@@ -1,7 +1,7 @@
 {
   "name": "@achengyu/nconsole",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "author": "chengyu",
   "description": "a better console tool for node development",
   "main": "./dist/nconsole.umd.js",

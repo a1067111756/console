@@ -1,7 +1,7 @@
 {
-  "name": "@chengyu666/vconsole",
+  "name": "@achengyu/vconsole",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "author": "chengyu",
   "description": "a better console tool for web development",
   "main": "./dist/vconsole.umd.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/a1067111756/vconsole.git"
+    "url": "https://github.com/a1067111756/console.git"
   },
   "files": ["dist"],
   "keywords": ["console", "vconsole", "chengyu"],

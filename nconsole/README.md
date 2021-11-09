@@ -1,7 +1,7 @@
 # 🚀 NConsole
 > ⌨️ 该工具仅用于node端开发时打印格式化日志，便于日志的管控
 
-> ⌨️ 原计划是将browser和node版本兼容为一个版本，开发中发现browser和node控制台输出样式方式是不一致的，且考虑node端后期可能会增加日志文件输出等功能，没办法很好的兼容browser端，计划将browser端拆分为新的一个工具库VConsole(🔗)
+> ⌨️ 原计划是将browser和node版本兼容为一个版本，开发中发现browser和node控制台输出样式方式是不一致的，且考虑node端后期可能会增加日志文件输出等功能，没办法很好的兼容browser端，计划将browser端拆分为新的一个工具库VConsole(🔗https://www.npmjs.com/package/@achengyu/vconsole)
 
 ### ❤️ 插件的背景和目标
 ___
@@ -71,7 +71,7 @@ ___
         调用nconsole
         
     tag的格式要求：
-        tag参数是一个字符串数组类型([xxx xxx xxx]), 多个tag间用空格符号间隔，代码逻辑中对多tag
+        tag参数是一个字符串类型('xxx xxx xxx'), 多个tag间用空格符号间隔，代码逻辑中对多tag
         进行过滤匹配，因此这么约定
 ```
 
@@ -99,7 +99,7 @@ ___
 ```javascript
 nconsole.log('test', '我是log日志')
 ```
-![log日志](./doc/images/log.png)
+![log日志](http://r2abbrguw.hn-bkt.clouddn.com/nlog.png)
 
 <br/>
 
@@ -107,7 +107,7 @@ nconsole.log('test', '我是log日志')
 ```javascript
 nconsole.info('test', '我是info日志')
 ```
-![info日志](./doc/images/info.png)
+![info日志](http://r2abbrguw.hn-bkt.clouddn.com/ninfo.png)
 
 <br/>
 
@@ -115,7 +115,7 @@ nconsole.info('test', '我是info日志')
 ```javascript
 nconsole.debug('test', '我是debug日志')
 ```
-![debug日志](./doc/images/debug.png)
+![debug日志](http://r2abbrguw.hn-bkt.clouddn.com/ndebug.png)
 
 <br/>
 
@@ -123,7 +123,7 @@ nconsole.debug('test', '我是debug日志')
 ```javascript
 nconsole.warn('test', '我是warn日志')
 ```
-![warn日志](./doc/images/warn.png)
+![warn日志](http://r2abbrguw.hn-bkt.clouddn.com/nwarn.png)
 
 <br/>
 
@@ -131,7 +131,7 @@ nconsole.warn('test', '我是warn日志')
 ```javascript
 nconsole.error('test', '我是error日志')
 ```
-![error日志](./doc/images/error.png)
+![error日志](http://r2abbrguw.hn-bkt.clouddn.com/nerror.png)
 
 <br/>
 
@@ -150,7 +150,7 @@ nconsole.ascii('test', `
            ~~~~       \\__\\/         \\__\\/         \\__\\/         \\__\\/         \\__\\/                       \\__\\/
 `, '#E6A23C')
 ```
-![image日志](./doc/images/ascii.png)
+![image日志](http://r2abbrguw.hn-bkt.clouddn.com/nascii.png)
 
 <br/>
 
@@ -172,4 +172,4 @@ nconsole.version(
     }
 )
 ```
-![version日志](./doc/images/version.png)
+![version日志](http://r2abbrguw.hn-bkt.clouddn.com/nversion.png)
