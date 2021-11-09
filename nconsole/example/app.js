@@ -1,12 +1,13 @@
-require('../dist/nconsole.umd.js')
+require('./node_modules/@achengyu/nconsole/dist/nconsole.umd.js')
 
-vconsole
-    .setting
-    .setEnabled(true)
-    .filterTags(['layer'])
-    .filterLevel([vconsole.VCONSOLE_TYPE.DEBUG])
+// nconsole
+//     .setting
+//     .setEnabled(true)
+//     .setEnableStackInfo(true)
+//     .filterTags(['test'])
+//     .filterLevel([nconsole.CONSOLE_TYPE.DEBUG])
 
-vconsole.ascii('test', `
+nconsole.ascii('test', `
           ___         /  /\\         /  /\\         /__/\\         /  /\\         /  /\\                       /  /\\
          /__/\\       /  /:/        /  /::\\        \\  \\:\\       /  /:/_       /  /::\\                     /  /:/_
          \\  \\:\\     /  /:/        /  /:/\\:\\        \\  \\:\\     /  /:/ /\\     /  /:/\\:\\    ___     ___    /  /:/ /\\
@@ -19,7 +20,7 @@ vconsole.ascii('test', `
            ~~~~       \\__\\/         \\__\\/         \\__\\/         \\__\\/         \\__\\/                       \\__\\/
 `, '#E6A23C')
 
-vconsole.version(
+nconsole.version(
     'test',
     {
         title: 'vconsole测试标题',
@@ -35,8 +36,8 @@ vconsole.version(
     }
 )
 
-vconsole.log('test', '我是log日志')
-vconsole.info('test', '我是info日志')
-vconsole.debug('test', '我是debug日志')
-vconsole.warn('test', '我是warn日志')
-vconsole.error('test', '我是error日志')
+nconsole.log('test layer', '我是log日志')
+nconsole.info('test', '我是info日志')
+nconsole.debug('test', '我是debug日志')
+nconsole.warn('test', '我是warn日志')
+nconsole.error('test', '我是error日志')

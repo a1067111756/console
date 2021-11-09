@@ -1,5 +1,5 @@
 // nconsole 声明文档
-declare const vconsole: {
+declare const nconsole: {
   log: (tag: string, ...msg: any[]) => void
   info: (tag: string, ...msg: any[]) => void
   debug: (tag: string, ...msg: any[]) => void
@@ -11,7 +11,7 @@ declare const vconsole: {
     titleParams: { title: string, color?: string },
     contentParams: { content: string, color?: string }
   ) => void
-  VCONSOLE_TYPE: {
+  CONSOLE_TYPE: {
     'DEFAULT': 0,
     'LOG': 1,
     'INFO': 2,
@@ -20,5 +20,5 @@ declare const vconsole: {
     'ERRORS': 5
   }
 }
-interface Global { vconsole }
+interface Global { nconsole }
 

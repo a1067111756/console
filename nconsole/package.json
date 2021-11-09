@@ -1,19 +1,29 @@
 {
-  "name": "nconsole",
+  "name": "@achengyu/nconsole",
+  "license": "MIT",
   "version": "0.0.1",
+  "author": "chengyu",
   "description": "a better console tool for node development",
-  "main": "rollup.config.dev.js",
-  "directories": {
-    "doc": "doc",
-    "lib": "lib"
+  "main": "./dist/nconsole.umd.js",
+  "module": "./dist/nconsole.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/nconsole.es.js",
+      "require": "./dist/nconsole.umd.js"
+    }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a1067111756/console.git"
+  },
+  "files": ["dist"],
+  "keywords": ["console", "nconsole", "node"],
   "scripts": {
     "build-types": "node ./types-excutor.js",
     "dev": "rollup -wc rollup.config.dev.js",
     "prod": "rollup -c rollup.config.prod.js && npm run build-types"
   },
-  "author": "chengyu",
-  "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",

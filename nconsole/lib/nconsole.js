@@ -3,9 +3,10 @@ const chalk = require('chalk')
 
 class NConsoleSetting {
     constructor () {
-        this.enable = true
         this.tags = []
-        this.level = [NConsole.STATIC_VCONSOLE_TYPE.DEFAULT]
+        this.enable = true
+        this.enableStackInfo = true
+        this.level = [NConsole.STATIC_CONSOLE_TYPE.DEFAULT]
     }
 
     setEnabled (value) {
@@ -14,6 +15,15 @@ class NConsoleSetting {
         }
 
         this.enable = value
+        return this
+    }
+
+    setEnableStackInfo (value) {
+        if (typeof value !== 'boolean') {
+            throw new Error('enableStackInfo配置项只接受boolean类型参数')
+        }
+
+        this.enableStackInfo = value
         return this
     }
 
@@ -37,7 +47,7 @@ class NConsoleSetting {
 }
 
 class NConsole {
-    static STATIC_VCONSOLE_TYPE = {
+    static STATIC_CONSOLE_TYPE = {
         'DEFAULT': 0,
         'LOG': 1,
         'INFO': 2,
@@ -48,7 +58,7 @@ class NConsole {
 
     constructor () {
         this.setting = new NConsoleSetting()
-        this.VCONSOLE_TYPE = NConsole.STATIC_VCONSOLE_TYPE
+        this.CONSOLE_TYPE = NConsole.STATIC_CONSOLE_TYPE
     }
 
     // 输出普通信息
@@ -56,9 +66,8 @@ class NConsole {
         const { tag, msg } = this._getLogParams(arguments)
         const level = 'log'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
-        this._isConsole(NConsole.STATIC_VCONSOLE_TYPE.LOG, logTag)
+        this._isConsole(NConsole.STATIC_CONSOLE_TYPE.LOG, tag)
             && console.log(
                 this._getLogGap() +
                 chalk.bgWhiteBright(level) +
@@ -66,8 +75,7 @@ class NConsole {
                 chalk.white(time) +
                 this._getLogGap() +
                 chalk.white(this._getStackInfo()) +
-                this._getLogGap() +
-                chalk.white(logTag),
+                chalk.white(`[${tag}]:`),
                 ...msg
             )
     }
@@ -77,9 +85,8 @@ class NConsole {
         const { tag, msg } = this._getLogParams(arguments)
         const level = 'info'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
-        this._isConsole(NConsole.STATIC_VCONSOLE_TYPE.INFO, logTag)
+        this._isConsole(NConsole.STATIC_CONSOLE_TYPE.INFO, tag)
             && console.info(
                 this._getLogGap() +
                 chalk.bgBlackBright(level) +
@@ -87,8 +94,7 @@ class NConsole {
                 chalk.blackBright(time) +
                 this._getLogGap() +
                 chalk.blackBright(this._getStackInfo()) +
-                this._getLogGap() +
-                chalk.blackBright(logTag),
+                chalk.blackBright(`[${tag}]:`),
                 ...msg
             )
     }
@@ -98,9 +104,8 @@ class NConsole {
         const { tag, msg } = this._getLogParams(arguments)
         const level = 'debug'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
-        this._isConsole(NConsole.STATIC_VCONSOLE_TYPE.DEBUG, logTag)
+        this._isConsole(NConsole.STATIC_CONSOLE_TYPE.DEBUG, tag)
             && console.debug(
                 this._getLogGap() +
                 chalk.bgBlue(level) +
@@ -108,8 +113,7 @@ class NConsole {
                 chalk.blue(time) +
                 this._getLogGap() +
                 chalk.blue(this._getStackInfo()) +
-                this._getLogGap() +
-                chalk.blue(logTag),
+                chalk.blue(`[${tag}]:`),
                 ...msg
             )
     }
@@ -119,9 +123,8 @@ class NConsole {
         const { tag, msg } = this._getLogParams(arguments)
         const level = 'warn'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
-        this._isConsole(NConsole.STATIC_VCONSOLE_TYPE.WARNING, logTag)
+        this._isConsole(NConsole.STATIC_CONSOLE_TYPE.WARNING, tag)
             && console.warn(
                 this._getLogGap() +
                 chalk.bgYellow(level) +
@@ -129,8 +132,7 @@ class NConsole {
                 chalk.yellow(time) +
                 this._getLogGap() +
                 chalk.yellow(this._getStackInfo()) +
-                this._getLogGap() +
-                chalk.yellow(logTag),
+                chalk.yellow(`[${tag}]:`),
                 ...msg
             )
     }
@@ -140,9 +142,8 @@ class NConsole {
         const { tag, msg } = this._getLogParams(arguments)
         const level = 'error'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
-        this._isConsole(NConsole.STATIC_VCONSOLE_TYPE.ERRORS, logTag)
+        this._isConsole(NConsole.STATIC_CONSOLE_TYPE.ERRORS, tag)
             && console.error(
                 this._getLogGap() +
                 chalk.bgRed(level) +
@@ -150,8 +151,7 @@ class NConsole {
                 chalk.red(time) +
                 this._getLogGap() +
                 chalk.red(this._getStackInfo()) +
-                this._getLogGap() +
-                chalk.red(logTag),
+                chalk.red(`[${tag}]:`),
                 ...msg
             )
     }
@@ -164,9 +164,8 @@ class NConsole {
 
         const level = 'info'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
-        this._isConsole(NConsole.STATIC_VCONSOLE_TYPE.INFO, logTag)
+        this._isConsole(NConsole.STATIC_CONSOLE_TYPE.INFO, tag)
             && console.info(
                 this._getLogGap() +
                 chalk.bgBlackBright(level) +
@@ -174,8 +173,7 @@ class NConsole {
                 chalk.blackBright(time) +
                 this._getLogGap() +
                 chalk.blackBright(this._getStackInfo()) +
-                this._getLogGap() +
-                chalk.blackBright(logTag),
+                chalk.blackBright(`[${tag}]:`),
                 chalk.hex(color)(content)
             )
     }
@@ -188,9 +186,8 @@ class NConsole {
 
         const level = 'info'
         const time = this._getLogTime()
-        const logTag = this._getLogTag(tag)
 
-        this._isConsole(NConsole.STATIC_VCONSOLE_TYPE.INFO, logTag)
+        this._isConsole(NConsole.STATIC_CONSOLE_TYPE.INFO, tag)
             && console.info(
                 this._getLogGap() +
                 chalk.bgBlackBright(level) +
@@ -198,8 +195,7 @@ class NConsole {
                 chalk.blackBright(time) +
                 this._getLogGap() +
                 chalk.blackBright(this._getStackInfo()) +
-                this._getLogGap() +
-                chalk.blackBright(logTag),
+                chalk.blackBright(`[${tag}]:`),
                 this._getLogWrap() + this._getLogGap(),
                 chalk.hex(titleParams.color || '#ffffff')(titleParams.title),
                 chalk.hex(contentParams.color || '#ffffff')(contentParams.content),
@@ -212,17 +208,18 @@ class NConsole {
         const enableMatch = this.setting.enable
 
         // 等级控制
-        const levelMatch = this.setting.level.includes(NConsole.STATIC_VCONSOLE_TYPE.DEFAULT) || this.setting.level.includes(type)
+        const levelMatch = this.setting.level.includes(NConsole.STATIC_CONSOLE_TYPE.DEFAULT) || this.setting.level.includes(type)
 
         // tag控制
-        const tagMatch = Array.isArray(this.setting.tags) && (this.setting.tags.length <= 0 || this.setting.tags.some(tag => logTag.includes(tag)))
+        const logTagList = this._getLogTag(logTag)
+        const tagMatch = Array.isArray(this.setting.tags) && (this.setting.tags.length <= 0 || this.setting.tags.some(tag => logTagList.includes(tag)))
 
         return enableMatch && levelMatch && tagMatch
     }
 
     // 获取打印tag标签
     _getLogTag (tag) {
-        return `[${tag}]:`
+        return tag.split(' ')
     }
 
     // 获取打印参数
@@ -259,7 +256,7 @@ class NConsole {
 
     // 打印信息间的间隔
     _getLogGap () {
-        return '  '
+        return ' '
     }
 
     // 打印信息间的换行
@@ -269,6 +266,10 @@ class NConsole {
 
     // 获取栈信息
     _getStackInfo (){
+        if (!this.setting.enableStackInfo) {
+            return ''
+        }
+
         function getException() {
             try {
                 throw Error('nconsole throw error for catch stack info');
@@ -292,7 +293,7 @@ class NConsole {
         if (callerLogIndex !== 0) {
             const callerStackLine = stackArr[callerLogIndex];
             const fileAndLine = callerStackLine.slice(callerStackLine.lastIndexOf('(') + 1, -1)
-            return path.basename(fileAndLine)
+            return path.basename(fileAndLine) + this._getLogGap()
         } else {
             return '';
         }
